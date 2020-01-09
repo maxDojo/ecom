@@ -4,14 +4,20 @@ require("./db/dbConfig");
 const info = require("./startup/info");
 // const mongoose = require("mongoose");
 const product = require("./db/products");
+const category = require("./db/categories");
 // mongoose has already been installed, just in case
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 app.get("/", async (req, res) => {
-  let result = await product.getProduct();
-  res.render("index", { title: info.home, products: result });
+  let products = await product.getProduct();
+  let categories = await category.getCategory();
+  res.render("index", {
+    title: info.home,
+    products: products,
+    cat: categories
+  });
 });
 
 app.post("/", async (req, res) => {
@@ -22,18 +28,14 @@ app.post("/", async (req, res) => {
     : res.status(200).redirect("/");
 });
 
-// let prod = new product.Product({
-//   title: "Corn",
-//   price: 2000,
+// let cat = new category.Category({
+//   title: "Groceries",
 //   image: "http://picsum.com/200",
-//   short_desc: "Sweet Corn, you can almost smell the farm on it!",
-//   desc:
-//     "Corn is good for specific foods, very nutritious although quite expensive!",
-//   stock: 2
+//   desc: "Look here for groceries and other delectibles!"
 // });
 
-// prod.save();
- 
+// cat.save();
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
