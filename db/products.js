@@ -6,6 +6,7 @@ const productSchema = new mongoose.Schema({
   image: String,
   short_desc: String,
   desc: String,
+  tags: [String],
   category: mongoose.Schema.Types.ObjectId,
   date_added: { type: Date, default: Date.now },
   stock: { type: Number, default: 0 }
@@ -41,7 +42,20 @@ function addProduct(data) {
   }
 }
 
+function search(searchQuery) {
+  try {
+    let q = new RegExp(".*" + searchQuery + ".*");
+    console.log(q);
+    return Product.find().or({ title: q }, { tags: q });
+    // return Product.find();
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+
 module.exports = {
   getProduct,
-  addProduct
+  addProduct,
+  search
 };

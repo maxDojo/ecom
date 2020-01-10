@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 require("./db/dbConfig");
-const info = require("./startup/info");
+const { title, tags } = require("./startup/info");
 // const mongoose = require("mongoose");
 const product = require("./db/products");
 const customer = require("./db/customers");
@@ -16,7 +16,7 @@ app.get("/", async (req, res) => {
   let products = await product.getProduct();
   let categories = await category.getCategory();
   res.render("index", {
-    title: info.home,
+    title: title.home,
     products: products,
     cat: categories
   });
@@ -40,17 +40,44 @@ app.post("/sub_news", async (req, res) => {
 
 app.get("/cart", (req, res) => {
   res.render("cart", {
-    title: info.home
+    title: title.cart
   });
 });
 
-// let cat = new category.Category({
-//   title: "Groceries",
-//   image: "http://picsum.com/200",
-//   desc: "Look here for groceries and other delectibles!"
-// });
+app.get("/blog", (req, res) => {
+  res.render("blog", {
+    title: title.blog
+  });
+});
 
-// cat.save();
+app.get("/categories", (req, res) => {
+  res.render("categories", {
+    title: title.cat
+  });
+});
+
+app.get("/product", (req, res) => {
+  res.render("product", {
+    title: title.cat
+  });
+});
+
+app.get("/checkout", (req, res) => {
+  res.render("checkout", {
+    title: title.checkout
+  });
+});
+
+app.get("/search", async (req, res) => {
+  let searchQuery = req.query._search;
+  let result = await product.search(searchQuery);
+  console.log(result);
+  res.render("listings", {
+    title: title.cat,
+    result: result,
+    query: searchQuery
+  });
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

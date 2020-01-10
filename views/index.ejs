@@ -97,6 +97,7 @@
 				<div class="row">
 					
 					<!-- Box -->
+<!-- EJS -->
 <% cat.forEach(c => { %>
 					<div class="col-lg-4 box_col">
 						<div class="box">
@@ -105,6 +106,7 @@
 						</div>
 					</div>
 <% }); %>
+<!-- END EJS -->
 
 				</div>
 			</div>
@@ -139,14 +141,14 @@
 				<div class="row">
 					<div class="col">
 						<div class="products_container grid">
-							
+<!-- EJS -->
 <% products.forEach(p => { %>
 
 	<!-- Product -->
 							<div class="product grid-item hot">
 								<div class="product_inner">
 									<div class="product_image">
-										<img src="<%= p.image %>" width="510" height="694" alt="">
+										<img src="<%= p.image %>" width="336" height="457" alt="">
 										<div class="product_tag">hot</div>
 									</div>
 									<div class="product_content text-center">
@@ -157,7 +159,7 @@
 								</div>	
 							</div>
 <% }); %>
-
+<!-- END EJS -->
 							<!-- Product -->
 							<div class="product grid-item">
 								<div class="product_inner">
@@ -290,9 +292,9 @@
 
 
 	<!-- Footer -->
-
+<!-- EJS -->
 	<%- include ('partials/footer') %>
-
+<!-- END EJS -->
 </div>
 
 <script src="js/jquery-3.2.1.min.js"></script>

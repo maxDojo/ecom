@@ -1,0 +1,121 @@
+/* listing Items */
+.listings_container {
+  width: calc(100% + 27px);
+  left: -14px;
+  padding-top: 101px;
+}
+.listing {
+  /* width: calc(100% / 4); */
+  width: 100%;
+  height: 120px;
+  padding-left: 14px;
+  padding-right: 13px;
+  margin-bottom: 45px;
+  display: flexbox;
+}
+.listing_image {
+  /* width: 20%; */
+  height: 100px;
+  width: 100px;
+}
+.listing_image::after {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: solid 5px #bbe432;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+.listing:hover .listing_image::after {
+  visibility: visible;
+  opacity: 1;
+}
+.listing_image img {
+  max-width: 100%;
+}
+.listing_tag {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  font-size: 6px;
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 20px;
+  text-align: center;
+  z-index: 1;
+}
+.listing.hot .listing_tag {
+  background: #bbe432;
+}
+.listing.sale .listing_tag {
+  background: #fd006b;
+}
+.listing.new .listing_tag {
+  background: #414141;
+}
+.listing_content {
+  /* padding-top: 40px; */
+  padding-left: 25px;
+  padding-right: 25px;
+  /* padding-bottom: 45px; */
+  background: #ffffff;
+}
+.listing_title a {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #414141;
+  /* line-height: 1.2; */
+  text-transform: uppercase;
+}
+.listing_price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #414141;
+  /* margin-top: 13px; */
+}
+.listing.sale .listing_price {
+  color: #fd006b;
+}
+.listing_price span {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  color: #949494;
+  margin-left: 12px;
+}
+.listing_button {
+  width: 138px;
+  height: 45px;
+  background: #edf4f6;
+  /* text-align: center; */
+  /* margin-top: 22px; */
+}
+.listing_button:hover {
+  background: #bbe432;
+}
+.listing_button a {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  line-height: 30px;
+}
+
+.listing_inner {
+  height: 120px;
+}
