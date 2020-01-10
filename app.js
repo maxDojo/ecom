@@ -38,6 +38,12 @@ app.post("/sub_news", async (req, res) => {
   res.status(200).send("<b>Subscribed Successfully!<b>");
 });
 
+app.get("/cart", (req, res) => {
+  res.render("cart", {
+    title: info.home
+  });
+});
+
 // let cat = new category.Category({
 //   title: "Groceries",
 //   image: "http://picsum.com/200",
