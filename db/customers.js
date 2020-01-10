@@ -9,7 +9,7 @@ const customerSchema = new mongoose.Schema({
 });
 const Customer = mongoose.model("Customer", customerSchema);
 
-const newsLetter = mongoose.model(
+const NewsLetter = mongoose.model(
   "Newsletter",
   mongoose.Schema({
     email: { type: String, required: true },
@@ -28,4 +28,17 @@ function newCustomer(data) {
   }
 }
 
-module.exports = {};
+function subNewsletter(data) {
+  try {
+    let user = new NewsLetter(data);
+    return user.save();
+  } catch (err) {
+    console.log("Failed to add email to newsletter list!");
+    return false;
+  }
+}
+
+module.exports = {
+  subNewsletter,
+  newCustomer
+};
