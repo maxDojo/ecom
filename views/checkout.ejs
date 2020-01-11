@@ -204,8 +204,13 @@
 
 									<!-- Order Text -->
 									<div class="order_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pharetra temp or so dales. Phasellus sagittis auctor gravida. Integ er bibendum sodales arcu id te mpus. Ut consectetur lacus.</div>
-
-									<div class="checkout_button trans_200"><a href="checkout.html">place order</a></div>
+									<div class="checkout_button trans_200">
+										<!-- <a href="checkout.html">place order</a> -->
+										<form >
+											<script src="https://js.paystack.co/v1/inline.js"></script>
+											<a type="button" onclick="payWithPaystack()"> Pay </a> 
+										</form>
+									</div>
 								</div>
 							</div>
 
@@ -248,6 +253,7 @@
 
 </div>
 
+<script src="js/functions.js"></script>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap-4.1.3/popper.js"></script>
 <script src="styles/bootstrap-4.1.3/bootstrap.min.js"></script>
@@ -260,5 +266,34 @@
 <script src="plugins/easing/easing.js"></script>
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
 <script src="js/checkout.js"></script>
+
+ 
+<script>
+  function payWithPaystack(){
+    var handler = PaystackPop.setup({
+      key: 'pk_test_881a3f8e18ed8b7fb08bb3d507e0a9f52a80d0a0',
+      email: document.getElementById('checkout_email').value,
+      amount: 10000,
+      currency: "NGN",
+      // ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+      metadata: {
+         custom_fields: [
+            {
+                display_name: document.getElementById('checkout_name').value + ' ' + document.getElementById('checkout_last_name').value,
+                variable_name: 'Phone Number',
+                value: document.getElementById('checkout_phone').value
+            }
+         ]
+      },
+      callback: function(response){
+          alert('Payment Successful. Transaction ref is ' + response.reference);
+      },
+      onClose: function(){
+          alert('Payment not Completed!');
+      }
+    });
+    handler.openIframe();
+  }
+</script>
 </body>
 </html>
