@@ -11,6 +11,7 @@ const cartRoutes = require("./routes/cart");
 const categoryRoutes = require("./routes/categories");
 const checkoutRoutes = require("./routes/checkout");
 const productRoutes = require("./routes/products");
+const admin = require("./admin/admin");
 
 require("./routes/mail");
 app.set("view engine", "ejs");
@@ -22,6 +23,7 @@ app.use("/cart", cartRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/checkout", checkoutRoutes);
 app.use("products", productRoutes);
+app.use("/admin", admin);
 
 app.post("/sub_news", async (req, res) => {
   const data = req.body;
