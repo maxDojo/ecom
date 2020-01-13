@@ -28,17 +28,29 @@ function newCustomer(data) {
   }
 }
 
-function subNewsletter(data) {
+async function subNewsletter(data) {
+  if (data.email == "") return 3;
   try {
-    let user = new NewsLetter(data);
-    return user.save();
+    const subscriptions = await NewsLetter.find(data);
+    if (subscriptions.length > 0) {
+      return 1;
+    } else {
+      let user = new NewsLetter(data);
+      return user.save();
+    }
   } catch (err) {
-    console.log("Failed to add email to newsletter list!");
-    return false;
+    return 2;
   }
+}
+
+function newsList() {
+  return NewsLetter.find().catch(err => {
+    return false;
+  });
 }
 
 module.exports = {
   subNewsletter,
-  newCustomer
+  newCustomer,
+  newsList
 };

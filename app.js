@@ -1,16 +1,51 @@
 const express = require("express");
 const app = express();
 require("./db/dbConfig");
-const { title, tags } = require("./startup/info");
-// const mongoose = require("mongoose");
-const product = require("./db/products");
 const customer = require("./db/customers");
+const { title, tags } = require("./startup/info");
+const product = require("./db/products");
 const category = require("./db/categories");
-// mongoose has already been installed, just in case
 
+const blogRoutes = require("./routes/blog");
+const cartRoutes = require("./routes/cart");
+const categoryRoutes = require("./routes/categories");
+const checkoutRoutes = require("./routes/checkout");
+const productRoutes = require("./routes/products");
+
+require("./routes/mail");
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/blog", blogRoutes);
+app.use("/cart", cartRoutes);
+app.use("/categories", categoryRoutes);
+app.use("/checkout", checkoutRoutes);
+app.use("products", productRoutes);
+
+app.post("/sub_news", async (req, res) => {
+  const data = req.body;
+  let result = await customer.subNewsletter(data);
+  if (result == 3) res.status(400).send("Please input a valid email address!");
+  console.log(result);
+  if (result == 1) res.status(401).send("Already subscribed to newsletter!");
+  else if (result == 2) {
+    res
+      .status(500)
+      .send("Failed to add email to Newsletter, please try again later!");
+  } else res.status(200).send("<b>Subscribed Successfully!<b>");
+});
+
+app.get("/search", async (req, res) => {
+  let searchQuery = req.query._search;
+  let result = await product.search(searchQuery);
+  console.log(result);
+  res.render("listings", {
+    title: title.cat,
+    result: result,
+    query: searchQuery
+  });
+});
 
 app.get("/", async (req, res) => {
   let products = await product.getProduct();
@@ -28,55 +63,6 @@ app.post("/", async (req, res) => {
   !result
     ? res.status(400).send("Failed to add Product, please check your input!")
     : res.status(200).redirect("/");
-});
-
-app.post("/sub_news", async (req, res) => {
-  const data = req.body;
-  if (!data) req.status(400).send("Please input a valid email address!");
-  result = await customer.subNewsletter(data);
-  if (!result) res.status(500).send("Internal Error, please try again!");
-  res.status(200).send("<b>Subscribed Successfully!<b>");
-});
-
-app.get("/cart", (req, res) => {
-  res.render("cart", {
-    title: title.cart
-  });
-});
-
-app.get("/blog", (req, res) => {
-  res.render("blog", {
-    title: title.blog
-  });
-});
-
-app.get("/categories", (req, res) => {
-  res.render("categories", {
-    title: title.cat
-  });
-});
-
-app.get("/product", (req, res) => {
-  res.render("product", {
-    title: title.cat
-  });
-});
-
-app.get("/checkout", (req, res) => {
-  res.render("checkout", {
-    title: title.checkout
-  });
-});
-
-app.get("/search", async (req, res) => {
-  let searchQuery = req.query._search;
-  let result = await product.search(searchQuery);
-  console.log(result);
-  res.render("listings", {
-    title: title.cat,
-    result: result,
-    query: searchQuery
-  });
 });
 
 const port = process.env.PORT || 3000;

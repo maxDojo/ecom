@@ -281,9 +281,10 @@
 						<div class="newsletter_form_container">
 							<form id="newsletter_form" class="newsletter_form">
 								<input type="email" id="sub_email" class="newsletter_input" placeholder="your e-mail here" required="required">
-								<button class="newsletter_button" type="button" onclick="ajaxPost('/sub_news', {email: document.getElementById('sub_email').value}, document.getElementsByClassName('newsletter_form_container')[0])">submit</button>
+								<button class="newsletter_button" type="submit" onclick="ajaxPost('/sub_news', {email: document.getElementById('sub_email').value}, document.getElementsByClassName('newsletter_form_container')[0])">submit</button>
 							</form>
 						</div>
+						<div class="error"></div>
 					</div>
 				</div>
 			</div>

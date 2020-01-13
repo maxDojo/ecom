@@ -15,6 +15,7 @@
 // }
 
 function ajaxPost(url, data, container) {
+  container.nextElementSibling.innerHTML = "";
   var params =
     typeof data == "string"
       ? data
@@ -31,6 +32,8 @@ function ajaxPost(url, data, container) {
   news.onreadystatechange = function() {
     if (news.readyState == 4 && news.status == 200) {
       container.innerHTML = news.responseText;
+    } else if (news.status >= 400) {
+      container.nextElementSibling.innerHTML = news.responseText;
     }
   };
   news.setRequestHeader("X-Requested-With", "XMLHttpRequest");
